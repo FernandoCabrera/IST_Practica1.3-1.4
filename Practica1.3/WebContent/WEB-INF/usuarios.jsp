@@ -9,20 +9,20 @@
 <body>
 <table>
 <tr>
-  <td><strong>Nombre</strong></td>
-  <td><strong>Apellidos</strong></td>
-  <td><strong>Email</strong></td>
+  <th><strong>Nombre</strong></th>
+  <th><strong>Apellidos</strong></th>
+  <th><strong>Email</strong></th>
 </tr>
 <tr>
-  <td>Juani</td>
-  <td>Moya</td>
-  <td>moyapalacios@gmail.com</td>
+  <th>Juani</th>
+  <th>Moya</th>
+  <th>moyapalacios@gmail.com</th>
 </tr>
  
 <tr>
-  <td>Jaume</td>
-  <td>Recatalà</td>
-  <td>jauma@gmail.com</td>
+  <th>Jaume</th>
+  <th>Recatalà</th>
+  <th>jauma@gmail.com</th>
 </tr>
 
 </table>
