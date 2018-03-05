@@ -30,15 +30,14 @@ public class Servlet2 extends HttpServlet {
 	 */
 		protected void doGet(HttpServletRequest request, HttpServletResponse response)
 	    		throws ServletException, IOException {
-			//Creamos la sesion 
-			HttpSession misession= request.getSession(true);
-			response.setContentType("text/html");
+
+			//Obtenemos la info de la respuesta
+			String action=(request.getPathInfo()!=null?request.getPathInfo():"");
+	        HttpSession misession = request.getSession();
+	      
+			
 			//Creamos url
 			String url="";
-			//Comprobamos si no hay un id de sesion
-			if(idSesion.equals("")){
-				idSesion =misession.getId();
-				}
 			//obtenemos el nombre
 			String nombre = request.getParameter("nombre");
 			misession.setAttribute("Nombre", nombre);
@@ -54,16 +53,19 @@ public class Servlet2 extends HttpServlet {
 			String email = request.getParameter("email");
 			misession.setAttribute("Email", email);
 			request.setAttribute("Email", email);
+			
 		
-			//Tiempo de expiracion de la sesion
+			
+	        //Tiempo de expiracion de la sesion
 			misession.setMaxInactiveInterval(1000);
-			if(idSesion.equals(misession.getId())) {
-				url="/WEB-INF/DatosRegistro.jsp";	
-				}else {
-					url="/WEB-INF/FormRegistro.html";
-					misession.invalidate();
-					idSesion="";
-				}
+			//Si contiene out sesion invalida
+	        if(action.equals("/out")){
+	            misession.invalidate();
+	            url="/WEB-INF/FormRegistro.html";
+	        }else{
+	        	
+	        	url="/WEB-INF/DatosRegistro.jsp";	
+	        }
 				getServletContext().getRequestDispatcher(url).forward(request, response);
 			
 	    		}
