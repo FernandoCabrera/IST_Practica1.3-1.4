@@ -14,6 +14,9 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/Servlet1")
 public class Servlet1 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final String user="admin";
+	private static final String pass="admin";
+	
 	HttpSession sesion;
 
     /**
@@ -29,24 +32,24 @@ public class Servlet1 extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-		
-		//Para acceder a un jsp 
-		String url="login.html";
-		String usu, pass;
+//url
+		String url="index.html";
+		String usu, password;
 		
         usu = request.getParameter("user");
-        pass = request.getParameter("password");
+        password = request.getParameter("pass");
       
         //comprobamos que  usuario y pass sean correctos
-        if(usu.equals("admin") && pass.equals("admin")  ){
+        if(usu.equals(user) && password.equals(pass)  ){
             //si coincide usuario y password 
-            //redirijo a página con información usuarios
+            //redirijo a jsp con información usuarios
         	 url="/WEB-INF/usuarios.jsp";
         	
             
         }else{
-        	//Caso que no coincidan pasamos a index html
-        	 url="index.html";
+        	//Caso que no coincidan pasamos a FormRegistro html
+        	//Aqui es donde se hace registro
+        	 url="/WEB-INF/FormRegistro.html";
         	 
         }
     

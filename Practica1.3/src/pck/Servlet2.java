@@ -32,7 +32,7 @@ public class Servlet2 extends HttpServlet {
 	    		throws ServletException, IOException {
 			//Creamos la sesion 
 			HttpSession misession= request.getSession(true);
-			
+			response.setContentType("text/html");
 			//Creamos url
 			String url="";
 			//Comprobamos si no hay un id de sesion
@@ -55,11 +55,12 @@ public class Servlet2 extends HttpServlet {
 			misession.setAttribute("Email", email);
 			request.setAttribute("Email", email);
 		
-			misession.setMaxInactiveInterval(10);
+			//Tiempo de expiracion de la sesion
+			misession.setMaxInactiveInterval(1000);
 			if(idSesion.equals(misession.getId())) {
-				url="/WEB-INF/indexlog.jsp";	
+				url="/WEB-INF/DatosRegistro.jsp";	
 				}else {
-					url="/index.html";
+					url="/WEB-INF/FormRegistro.html";
 					misession.invalidate();
 					idSesion="";
 				}
