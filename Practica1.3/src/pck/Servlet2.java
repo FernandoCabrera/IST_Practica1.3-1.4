@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +17,8 @@ import javax.servlet.http.HttpSession;
 public class Servlet2 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private String idSesion="";
-       
+	
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -28,48 +30,52 @@ public class Servlet2 extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-		protected void doGet(HttpServletRequest request, HttpServletResponse response)
-	    		throws ServletException, IOException {
-
-			//Obtenemos la info de la respuesta
-			String action=(request.getPathInfo()!=null?request.getPathInfo():"");
-	        HttpSession misession = request.getSession();
-	      
-			
-			//Creamos url
-			String url="";
-			//obtenemos el nombre
-			String nombre = request.getParameter("nombre");
-			misession.setAttribute("Nombre", nombre);
-			//Añadimos a pa peticion
-			request.setAttribute("Nombre", nombre);
-			
-			//obtenemos apellidos
-			String apellidos = request.getParameter("apellidos");
-			misession.setAttribute("Apellidos", apellidos);
-			request.setAttribute("Apellido", apellidos);
-			
-			//Email
-			String email = request.getParameter("email");
-			misession.setAttribute("Email", email);
-			request.setAttribute("Email", email);
-			
-		
-			
-	        //Tiempo de expiracion de la sesion
-			misession.setMaxInactiveInterval(1000);
-			//Si contiene out sesion invalida
-	        if(action.equals("/out")){
-	            misession.invalidate();
-	            url="/WEB-INF/FormRegistro.html";
-	        }else{
-	        	
-	        	url="/WEB-INF/DatosRegistro.jsp";	
-	        }
-				getServletContext().getRequestDispatcher(url).forward(request, response);
-			
-	    		}
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
+		
+		//Inicio de sesion
+		HttpSession sesion = request.getSession(true);
+		String url="";
+		if(idSesion.equals("")){
+		idSesion =sesion.getId();
+		}
+		
+	
+		
+		String nombre = request.getParameter("name");
+		sesion.setAttribute("Nombre", nombre);
+		//Lo añadimos a la petición. Pues para la sesion deberemos 
+		//utilizar sessionscope que no lo ha explicado
+		request.setAttribute("Nombre", nombre);
+		
+		String apellido = request.getParameter("surname");
+		sesion.setAttribute("Apellido", apellido);
+		//Lo añadimos a la petición. Pues para la sesion deberemos 
+		//utilizar sessionscope que no lo ha explicado
+		request.setAttribute("Apellido", apellido);
+		
+		String email = request.getParameter("email");
+		sesion.setAttribute("Email", email);
+		//Lo añadimos a la petición. Pues para la sesion deberemos 
+		//utilizar sessionscope que no lo ha explicado
+		request.setAttribute("Email", email);
+	
+		sesion.setMaxInactiveInterval(5);
+
+		
+		if(idSesion.equals(sesion.getId())) {
+		url="/WEB-INF/DatosRegistro.jsp";	
+		}else {
+			url="/index.html";
+			sesion.invalidate();
+			idSesion="";
+			
+		}
+		getServletContext().getRequestDispatcher(url).forward(request, response);
+
+				
+				
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
