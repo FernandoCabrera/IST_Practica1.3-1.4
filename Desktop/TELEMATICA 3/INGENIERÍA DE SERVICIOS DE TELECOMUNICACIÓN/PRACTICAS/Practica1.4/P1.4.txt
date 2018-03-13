@@ -1,0 +1,14 @@
+PARTE1
+
+Servidor tomcat <--------------->Servidor MYSQL(<----Tabla usuarios--->Usuarios DTO)
+
+admin.jsp(Servlet1 le pasa una lista de usuarios)<---DAO llama al servlet
+
+
+Servlet2---->DAO---->Busca componente en la tabla usuarios
+(En caso de que no exista usuario)----->registro.jsp----->Servlet3----->DAO--->insetrara datos en la tabla usuario
+(Exista usuario)---> usuario.jsp
+
+
+PARTE2
+Migrar parte1 a spring
