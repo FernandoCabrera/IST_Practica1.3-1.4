@@ -3,6 +3,8 @@ package pck;
 import java.io.Serializable;
 
 public class DTOUsuarios  implements Serializable  {
+	/*La misión de un DTO es encapsular los datos a transferir 
+	en un único objeto.*/
 	//Atributos
 	private String apellidos;
 	private String nombre;
