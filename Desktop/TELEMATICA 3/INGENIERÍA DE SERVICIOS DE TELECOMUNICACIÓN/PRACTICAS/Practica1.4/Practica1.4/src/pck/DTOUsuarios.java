@@ -3,6 +3,10 @@ package pck;
 import java.io.Serializable;
 
 public class DTOUsuarios  implements Serializable  {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/*La misión de un DTO es encapsular los datos a transferir 
 	en un único objeto.*/
 	//Atributos
@@ -15,7 +19,7 @@ public DTOUsuarios() {
 	
 }
 //Constructor
-	public DTOUsuarios(String apellidos, String nombre, String email) {
+	public DTOUsuarios(String nombre, String apellidos, String email) {
 		this.apellidos = apellidos;
 		this.nombre = nombre;
 		this.email = email;

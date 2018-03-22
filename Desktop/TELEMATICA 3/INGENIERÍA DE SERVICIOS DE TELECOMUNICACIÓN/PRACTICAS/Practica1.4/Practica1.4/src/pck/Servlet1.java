@@ -1,6 +1,8 @@
 package pck;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,27 +34,53 @@ public class Servlet1 extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-//url
+	
+       //url
 		String url="index.html";
 		String usu, password;
 		
         usu = request.getParameter("user");
         password = request.getParameter("pass");
-      
+    	UsuariosJDBC jdbc = new UsuariosJDBC();
+		ArrayList<DTOUsuarios> lista=null;
+		
+			lista = jdbc.muestraUser();
+		
+		
+		
+	
         //comprobamos que  usuario y pass sean correctos
         if(usu.equals(user) && password.equals(pass)  ){
-            //si coincide usuario y password 
-            //redirijo a jsp con información usuarios
-        	 url="/WEB-INF/usuarios.jsp";
         	
-            
-        }else{
+            //si coincide usuario y password 
+            //Muestro el jsp con la info de bddd
+        	//Por tanto hay que recorrer la lista
+        	for(int i=0;i<lista.size();i++) {
+        		
+        			request.setAttribute("Nombre", lista.get(i).getNombre());
+        			request.setAttribute("Apellidos", lista.get(i).getApellidos());
+        			request.setAttribute("Email", lista.get(i).getEmail());
+        			url="/WEB-INF/usuarios.jsp";
+        			
+        			request.setAttribute("lista", lista);
+    		
+        	}	
+ }else{
         	//Caso que no coincidan pasamos a FormRegistro html
         	//Aqui es donde se hace registro
-        	 url="/WEB-INF/FormRegistro.html";
+	 for(int i=0;i<lista.size();i++) {
+ 		
+			request.setAttribute("Nombre", lista.get(i).getNombre());
+			request.setAttribute("Apellidos", lista.get(i).getApellidos());
+			request.setAttribute("Email", lista.get(i).getEmail());
+			url="/WEB-INF/FormRegistro.html";
+			request.setAttribute("lista", lista);
+	
+	}	
+        	
         	 
         }
-    
+        
         getServletContext().getRequestDispatcher(url).forward(request,response);
         
 	}
@@ -65,10 +93,5 @@ public class Servlet1 extends HttpServlet {
 		doGet(request, response);
 	}
 }
-    	
-    
-	
-    
-	
 
-
+	

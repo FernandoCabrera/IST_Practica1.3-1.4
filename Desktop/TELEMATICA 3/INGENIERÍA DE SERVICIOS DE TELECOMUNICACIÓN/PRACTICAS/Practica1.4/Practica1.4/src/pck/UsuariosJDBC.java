@@ -8,8 +8,9 @@ import java.util.ArrayList;
 public class UsuariosJDBC implements DAOUsuarios {
 	
 	private String DRIVER_MYSQL = "com.mysql.jdbc.Driver";
-	private String URL_MYSQL = "jdbc:mysql://localhost/ingserviciosp1";//Mirar nombre bbbbd
+	private String URL_MYSQL = "jdbc:mysql://localhost:3306/ingserviciosp1";//Mirar nombre bbbbd
 	private Connection conn;
+	
 	
 	
 	public UsuariosJDBC(){
@@ -18,7 +19,7 @@ public class UsuariosJDBC implements DAOUsuarios {
 	
 	
 	//Clase para cargar el driver
-	private void loadDriver(){
+	public void loadDriver(){
 	try {
 	Class.forName(DRIVER_MYSQL);
 	} catch (ClassNotFoundException e) { 
@@ -26,7 +27,7 @@ public class UsuariosJDBC implements DAOUsuarios {
 		} 
 	}
 	//Clase para establecer conexion
-	private void getConnect(){
+	public void getConnect(){
 		try {
 		conn = DriverManager.getConnection(URL_MYSQL,"root","");
 		} catch (SQLException e) {
@@ -36,7 +37,7 @@ public class UsuariosJDBC implements DAOUsuarios {
 	// Implementación de métodos declarados en el interface:
 	
 //Metodo que muestra los usuarios
-	public ArrayList<DTOUsuarios> muestraUser(){
+	public ArrayList<DTOUsuarios> muestraUser() {
 		getConnect();
 		String sql = "SELECT * FROM usuarios";
 		String nombre,apellidos,email;
@@ -53,6 +54,7 @@ public class UsuariosJDBC implements DAOUsuarios {
 		email=rs.getString("Email");
 		DTOUsuarios us= new DTOUsuarios(nombre,apellidos,email);
 		listout.add(us);
+		
 		}
 		} catch(SQLException e){
 			System.out.println(e);
@@ -71,29 +73,31 @@ public class UsuariosJDBC implements DAOUsuarios {
 		}
 	
 	//Insertar usuarios
-	public void addUser(DTOUsuarios user,String name,String surname,String email) {
+	public void addUser(String name,String surname,String email) {
 		getConnect();
-		String sql="INSERT INTO usuarios (Nombre,Apellidos,Email)VALUES (name,surname,email);";
+		String sql="INSERT INTO usuarios (Nombre, Apellidos, Email)"
+				+ " VALUES ('"+name+"','"+surname+"','"+email+"');";
 		PreparedStatement stmt = null;
 		try {
 		stmt = conn.prepareStatement(sql);
-		stmt.setString(1, user.getNombre());
-		stmt.setString(2, user.getApellidos());
-		stmt.setString(3, user.getEmail());
+		//Si el método de acceso a la base de datos tiene parámetros de entrada,
+		//entonces se recomienda el uso de PreparedStatement en lugar de
+		//Statement
+		stmt.setString(1,name);
+		stmt.setString(2,surname);
+		stmt.setString(3,email);
+		
 		
 		stmt.execute();// para operaciones de cualquier tipo, sin devolver objeto
 		//ResultSet: INSERT,UPDATE, DELETE…
-		}catch (SQLException e) {e.printStackTrace();}
-		finally{ 
+		}catch (Exception e) { System.out.println(e); }
+		finally{
 			if (stmt!=null) {
-			try{ stmt.close(); 
-			} catch(SQLException e){
-				e.printStackTrace();}
+				try{ stmt.close(); } catch(SQLException e){e.printStackTrace();}
 			}
 			if (conn!=null) {
-			try{ conn.close(); } catch(SQLException e){e.printStackTrace(); }
+				try{ conn.close(); } catch(SQLException e){e.printStackTrace(); }
 			}
-	
-}
+		}
 	}
 }

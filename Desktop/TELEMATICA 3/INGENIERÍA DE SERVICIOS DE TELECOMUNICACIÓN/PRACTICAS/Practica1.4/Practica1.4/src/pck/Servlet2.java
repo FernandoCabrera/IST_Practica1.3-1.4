@@ -1,10 +1,11 @@
 package pck;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,45 +33,31 @@ public class Servlet2 extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
+	
 		
-		//Inicio de sesion
-		HttpSession sesion = request.getSession(true);
+		String nombre = request.getParameter("Nombre");
+		String apellido = request.getParameter("Apellidos");
+		String email = request.getParameter("Email");
+		
+		
+		request.setAttribute("nombre", nombre);
+		request.setAttribute("apellido", apellido);
+		request.setAttribute("email",email);
+		
 		String url="";
-		if(idSesion.equals("")){
-		idSesion =sesion.getId();
-		}
-		
-	
-		
-		String nombre = request.getParameter("name");
-		sesion.setAttribute("Nombre", nombre);
-		//Lo añadimos a la petición. Pues para la sesion deberemos 
-		//utilizar sessionscope que no lo ha explicado
-		request.setAttribute("Nombre", nombre);
-		
-		String apellido = request.getParameter("surname");
-		sesion.setAttribute("Apellido", apellido);
-		//Lo añadimos a la petición. Pues para la sesion deberemos 
-		//utilizar sessionscope que no lo ha explicado
-		request.setAttribute("Apellido", apellido);
-		
-		String email = request.getParameter("email");
-		sesion.setAttribute("Email", email);
-		//Lo añadimos a la petición. Pues para la sesion deberemos 
-		//utilizar sessionscope que no lo ha explicado
-		request.setAttribute("Email", email);
-	
-		sesion.setMaxInactiveInterval(5);
+		 //Creamos objeto Usuarios jdbc, dtusuario
+		UsuariosJDBC jdbc = new UsuariosJDBC();		 
+		jdbc.addUser(nombre, apellido, email);
+			 
+	        	url="/WEB-INF/DatosRegistro.jsp";
+     			
+     	
+ 		
+     	
 
-		
-		if(idSesion.equals(sesion.getId())) {
-		url="/WEB-INF/DatosRegistro.jsp";	
-		}else {
-			url="/index.html";
-			sesion.invalidate();
-			idSesion="";
 			
-		}
+	
+		
 		getServletContext().getRequestDispatcher(url).forward(request, response);
 
 				
