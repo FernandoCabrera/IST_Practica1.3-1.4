@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class UsuariosJDBC implements DAOUsuarios {
 	
 	private String DRIVER_MYSQL = "com.mysql.jdbc.Driver";
-	private String URL_MYSQL = "jdbc:mysql://localhost:3306/ingserviciosp1";//Mirar nombre bbbbd
+	private String URL_MYSQL = "jdbc:mysql://localhost:3306/ingserviciosp1";//Puero myswl 3306
 	private Connection conn;
 	
 	
@@ -83,10 +83,6 @@ public class UsuariosJDBC implements DAOUsuarios {
 		//Si el método de acceso a la base de datos tiene parámetros de entrada,
 		//entonces se recomienda el uso de PreparedStatement en lugar de
 		//Statement
-		stmt.setString(1,name);
-		stmt.setString(2,surname);
-		stmt.setString(3,email);
-		
 		
 		stmt.execute();// para operaciones de cualquier tipo, sin devolver objeto
 		//ResultSet: INSERT,UPDATE, DELETE…

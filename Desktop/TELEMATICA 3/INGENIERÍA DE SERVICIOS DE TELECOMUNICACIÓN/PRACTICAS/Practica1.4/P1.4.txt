@@ -12,3 +12,19 @@ Servlet2---->DAO---->Busca componente en la tabla usuarios
 
 PARTE2
 Migrar parte1 a spring
+@webServlet(url1)
+url1->Servlet1----------->RequestMappping(value="url1",method="GET/POST")
+			public String metodo1(){
+			return "nombre.jsp"
+			}registro;
+url2-> Servlet2
+
+registro.html xxx----->registro.jsp-->views
+index.html--->home.jsp
+
+
+Spring
+@RequestMappping(value="/"
+public String home(){
+return"home";
+}
